@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mgdas"
+version = "0.1.0"
+description = "Reliable activation intervention selection for language-model debiasing"
+requires-python = ">=3.10"
+dependencies = [
+  "numpy>=1.24,<2.0",
+  "torch>=2.1",
+  "transformers>=4.38",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=7.4"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["mgdas_v2*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

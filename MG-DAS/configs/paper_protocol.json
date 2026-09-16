@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "seed": 42,
+  "model": {
+    "model_path": "/path/to/Llama-2-7b-chat-hf",
+    "dtype": "fp16",
+    "num_layers": 32,
+    "hidden_dim": 4096,
+    "layer_module_template": "model.layers.{layer}.mlp",
+    "token_scope": "all",
+    "prompt_format": "original"
+  },
+  "data": {
+    "bbq_normalized_path": "/path/to/bbq_normalized.jsonl",
+    "mmlu_cert_path": "/path/to/mmlu_cert_5shot.jsonl",
+    "mmlu_test_path": "/path/to/mmlu_test_5shot.jsonl",
+    "output_dir": "outputs/paper_run"
+  },
+  "split": {
+    "manifest_path": "outputs/paper_run/split_manifest.json",
+    "seed": 42,
+    "ratios": {
+      "cal": 0.3,
+      "search": 0.3,
+      "cert": 0.2,
+      "test": 0.2
+    }
+  },
+  "direction": {
+    "probe_epochs": 20,
+    "probe_batch_size": 32,
+    "probe_learning_rate": 0.001,
+    "pgd_steps": 20,
+    "pgd_step_fraction": 0.1,
+    "pgd_radius_fraction": 0.1,
+    "min_valid_perturbations": 32,
+    "gamma_direction": 0.25,
+    "gamma_pc3": 0.6,
+    "gamma_pc5": 0.35
+  },
+  "response": {
+    "local_strengths": [0.0025, 0.005, 0.01, 0.02],
+    "epsilon_bias": 0.05,
+    "near_neutral_abs_log_odds": 0.5,
+    "max_layers_per_direction_polarity": 3,
+    "excluded_layers": [0, 1, 2, 3]
+  },
+  "search": {
+    "max_units": 3,
+    "beam_width": 20,
+    "deployment_strengths": [0.02, 0.04, 0.08, 0.12],
+    "weight_grids": {
+      "1": [[1.0]],
+      "2": [[0.25, 0.75], [0.5, 0.5], [0.75, 0.25]],
+      "3": [[0.3333333333333333, 0.3333333333333333, 0.3333333333333333], [0.5, 0.25, 0.25], [0.25, 0.5, 0.25], [0.25, 0.25, 0.5]]
+    },
+    "epsilon_score": 0.1
+  },
+  "certification": {
+    "task_tolerance_pp": 5.0,
+    "mmlu_tolerance_pp": 3.0,
+    "gain_tolerance": 0.02
+  }
+}
